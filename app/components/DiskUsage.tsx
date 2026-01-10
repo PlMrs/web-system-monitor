@@ -26,7 +26,7 @@ export const DiskUsage: FC<Props> = ({ history }) => {
         </div>
       </div>
 
-      <div className="h-64 w-100">
+      <div className="h-64">
         <ResponsiveContainer width="100%" height="100%">
           <AreaChart data={history}>
             <defs>

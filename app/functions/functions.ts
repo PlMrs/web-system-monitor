@@ -5,3 +5,5 @@ export const computeDiskInfos: TcomputeDiskInfos = (fsSize, index) => ({
   usedGB: parseFloat((fsSize[index].used / (1024 * 1024 * 1024)).toFixed(2)),
   percent: parseFloat(fsSize[index].use.toFixed(1)),
 });
+
+export const fetcher = (url: string) => fetch(url).then((res) => res.json());

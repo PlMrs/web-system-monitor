@@ -2,24 +2,27 @@
 
 import { useState, useEffect } from "react";
 import useSWR from "swr";
-import { TStatsData } from "../types/stats.types";
+import { TinitialHistoryPoints, TStatsData } from "../types/stats.types";
 import { WifiCharts } from "./WifiCharts";
 import { CpuCharts } from "./CpuCharts";
 import { DiskUsage } from "./DiskUsage";
+import { StatBlock } from "./StateBlock";
+import { fetcher } from "../functions/functions";
 
-const fetcher = (url: string) => fetch(url).then((res) => res.json());
+const initialHistory: TinitialHistoryPoints[] = Array.from(
+  { length: 30 },
+  (_, i) => ({
+    time: i,
+    cpuLoad: 0,
+    cpuTemp: 0,
+    netDown: 0,
+    netUp: 0,
+    diskRead: 0,
+    diskWrite: 0,
+  })
+);
 
-const initialHistory = Array.from({ length: 30 }, (_, i) => ({
-  time: i,
-  cpuLoad: 0,
-  cpuTemp: 0,
-  netDown: 0,
-  netUp: 0,
-  diskRead: 0,
-  diskWrite: 0,
-}));
-
-export default function SystemMonitor() {
+export const SystemMonitor = () => {
   const [history, setHistory] = useState<any[]>(initialHistory);
   const { data, error, isLoading } = useSWR<TStatsData>("/api/stats", fetcher, {
     refreshInterval: 1000,
@@ -102,14 +105,4 @@ export default function SystemMonitor() {
       </div>
     </div>
   );
-}
-
-function StatBlock({ label, value, sub, color }: any) {
-  return (
-    <div className="bg-slate-900 border border-slate-800 p-4 rounded-xl shadow-inner">
-      <p className="text-xs text-slate-500 uppercase font-bold">{label}</p>
-      <p className={`text-2xl font-mono my-1 ${color}`}>{value}</p>
-      <p className="text-[10px] text-slate-400 font-mono">{sub}</p>
-    </div>
-  );
-}
+};

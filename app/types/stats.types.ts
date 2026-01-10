@@ -49,3 +49,13 @@ export type TStatsData = {
     tx_sec: number;
   } | null;
 };
+
+export type TinitialHistoryPoints = {
+  time: number;
+  cpuLoad: number;
+  cpuTemp: number;
+  netDown: number;
+  netUp: number;
+  diskRead: number;
+  diskWrite: number;
+};

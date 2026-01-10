@@ -144,6 +144,9 @@ export const ProcessMonitor = () => {
                   NOM <SortIcon column="name" />
                 </div>
               </TableHead>
+              <TableHead className="cursor-pointer hover:text-white" onClick={() => requestSort('user')}>
+                <div className="flex items-center">USER <SortIcon column="user" /></div>
+              </TableHead>
               <TableHead
                 className="text-right cursor-pointer hover:text-white"
                 onClick={() => requestSort("pid")}
@@ -181,6 +184,11 @@ export const ProcessMonitor = () => {
                   <TableCell className="font-medium text-slate-200">
                     {proc.name}
                   </TableCell>
+                  <TableCell className="text-slate-400 text-xs">
+                    <span className={proc.user === 'root' ? 'text-amber-500 font-bold' : ''}>
+                        {proc.user}
+                    </span>
+                </TableCell>
                   <TableCell className="text-right font-mono text-slate-500 text-xs">
                     {proc.pid}
                   </TableCell>

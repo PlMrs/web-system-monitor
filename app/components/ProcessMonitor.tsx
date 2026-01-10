@@ -35,6 +35,7 @@ type SortConfig = {
 export const ProcessMonitor = () => {
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
+  const [userFilter, setUserFilter] = useState("all");
   const [sortConfig, setSortConfig] = useState<SortConfig>({
     key: "cpu",
     direction: "desc",
@@ -51,6 +52,11 @@ export const ProcessMonitor = () => {
   const availableStates = useMemo(() => {
     if (!processes || !Array.isArray(processes)) return [];
     return Array.from(new Set(processes.map((p: any) => p.state)));
+  }, [processes]);
+
+  const availableUsers = useMemo(() => {
+    if (!processes || !Array.isArray(processes)) return [];
+    return Array.from(new Set(processes.map((p: any) => p.user)));
   }, [processes]);
 
   const requestSort = (key: string) => {
@@ -70,7 +76,8 @@ export const ProcessMonitor = () => {
         proc.pid.toString().includes(search);
       const matchesStatus =
         statusFilter === "all" || proc.state === statusFilter;
-      return matchesSearch && matchesStatus;
+      const matchesUser = userFilter === "all" || proc.user === userFilter;
+      return matchesSearch && matchesStatus && matchesUser;
     });
 
     return filtered.sort((a, b) => {
@@ -80,7 +87,7 @@ export const ProcessMonitor = () => {
       if (aValue > bValue) return sortConfig.direction === "asc" ? 1 : -1;
       return 0;
     });
-  }, [processes, search, statusFilter, sortConfig]);
+  }, [processes, search, statusFilter, userFilter, sortConfig]);
 
   const SortIcon = ({ column }: { column: string }) => {
     if (sortConfig.key !== column)
@@ -104,7 +111,7 @@ export const ProcessMonitor = () => {
   return (
     <div className="space-y-4 md:max-w-11/12 lg:max-w-4/5 mx-auto">
       <div className="flex flex-col md:flex-row gap-3">
-        <div className="relative flex-1">
+        <div className="relative flex-2">
           <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-slate-500" />
           <Input
             placeholder="Rechercher nom ou PID..."
@@ -114,7 +121,7 @@ export const ProcessMonitor = () => {
           />
         </div>
 
-        <div className="w-full md:w-50">
+        <div className="flex-1 flex gap-5">
           <Select value={statusFilter} onValueChange={setStatusFilter}>
             <SelectTrigger className="bg-slate-900/50 border-slate-800">
               <Filter className="w-4 h-4 mr-2 text-slate-500" />
@@ -125,6 +132,19 @@ export const ProcessMonitor = () => {
               {availableStates.map((state) => (
                 <SelectItem key={state} value={state}>
                   {state.charAt(0).toUpperCase() + state.slice(1)}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+          <Select value={userFilter} onValueChange={setUserFilter}>
+            <SelectTrigger className="bg-slate-900/50 border-slate-800">
+              <SelectValue placeholder="Utilisateur" />
+            </SelectTrigger>
+            <SelectContent className="bg-slate-900 border-slate-800 text-slate-200">
+              <SelectItem value="all">Tous les utilisateurs</SelectItem>
+              {availableUsers.map((user) => (
+                <SelectItem key={user} value={user}>
+                  {user}
                 </SelectItem>
               ))}
             </SelectContent>
@@ -144,13 +164,8 @@ export const ProcessMonitor = () => {
                   NOM <SortIcon column="name" />
                 </div>
               </TableHead>
-              <TableHead
-                className="cursor-pointer hover:text-white"
-                onClick={() => requestSort("user")}
-              >
-                <div className="flex items-center">
-                  USER <SortIcon column="user" />
-                </div>
+              <TableHead className="cursor-pointer hover:text-white">
+                <div className="flex items-center">USER</div>
               </TableHead>
               <TableHead
                 className="text-right cursor-pointer hover:text-white"

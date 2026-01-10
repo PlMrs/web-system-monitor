@@ -5,13 +5,22 @@ import si from "systeminformation";
 
 export async function GET() {
   try {
-    const [cpuLoad, mem, cpuTemp, fsSize, networkStats] = (await Promise.all([
-      si.currentLoad(),
-      si.mem(),
-      si.cpuTemperature(),
-      si.fsSize(),
-      si.networkStats("wlan0"),
-    ])) as StatsFetch;
+    const { cpuLoad, mem, cpuTemp, fsSize, disksIO, networkStats }: StatsFetch =
+      await Promise.all([
+        si.currentLoad(),
+        si.mem(),
+        si.cpuTemperature(),
+        si.fsSize(),
+        si.disksIO(),
+        si.networkStats("wlan0"),
+      ]).then((res) => ({
+        cpuLoad: res[0],
+        mem: res[1],
+        cpuTemp: res[2],
+        fsSize: res[3],
+        disksIO: res[4],
+        networkStats: res[5],
+      }));
 
     const data: TStatsData = {
       timestamp: Date.now(),
@@ -42,6 +51,12 @@ export async function GET() {
               external: computeDiskInfos(fsSize, 1),
             }
           : null,
+      diskIO: {
+        read_sec:
+          disksIO.rIO_sec !== null ? parseFloat(disksIO.rIO_sec.toFixed(2)) : 0,
+        write_sec:
+          disksIO.wIO_sec !== null ? parseFloat(disksIO.wIO_sec.toFixed(2)) : 0,
+      },
       network:
         networkStats.length > 0
           ? {

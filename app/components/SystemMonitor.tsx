@@ -2,18 +2,10 @@
 
 import { useState, useEffect } from "react";
 import useSWR from "swr";
-import {
-  LineChart,
-  Line,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  ResponsiveContainer,
-  AreaChart,
-  Area,
-} from "recharts";
 import { TStatsData } from "../types/stats.types";
+import { WifiCharts } from "./WifiCharts";
+import { CpuCharts } from "./CpuCharts";
+import { DiskUsage } from "./DiskUsage";
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
@@ -23,6 +15,8 @@ const initialHistory = Array.from({ length: 30 }, (_, i) => ({
   cpuTemp: 0,
   netDown: 0,
   netUp: 0,
+  diskRead: 0,
+  diskWrite: 0,
 }));
 
 export default function SystemMonitor() {
@@ -40,6 +34,8 @@ export default function SystemMonitor() {
         ramPercent: data.mem.percent,
         netDown: data.network?.rx_sec || 0,
         netUp: data.network?.tx_sec || 0,
+        diskRead: data.diskIO?.read_sec || 0,
+        diskWrite: data.diskIO?.write_sec || 0,
       };
       setHistory((prev) => [...prev, newPoint].slice(-30));
     }
@@ -100,85 +96,9 @@ export default function SystemMonitor() {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div className="bg-slate-900 p-6 rounded-xl border border-slate-800">
-          <h2 className="text-sm font-semibold text-slate-400 mb-4 uppercase">
-            Performance CPU
-          </h2>
-          <div className="h-64">
-            <ResponsiveContainer width="100%" height="100%">
-              <AreaChart data={history}>
-                <CartesianGrid
-                  strokeDasharray="3 3"
-                  stroke="#1e293b"
-                  vertical={false}
-                />
-                <XAxis dataKey="time" hide />
-                <YAxis stroke="#64748b" fontSize={10} />
-                <Tooltip
-                  contentStyle={{ backgroundColor: "#0f172a", border: "none" }}
-                />
-                <Area
-                  type="monotone"
-                  dataKey="cpuLoad"
-                  isAnimationActive={false}
-                  stroke="#10b981"
-                  fill="#10b981"
-                  fillOpacity={0.1}
-                  name="Load %"
-                />
-                <Area
-                  type="monotone"
-                  dataKey="cpuTemp"
-                  isAnimationActive={false}
-                  stroke="#f59e0b"
-                  fill="#f59e0b"
-                  fillOpacity={0.1}
-                  name="Temp °C"
-                />
-              </AreaChart>
-            </ResponsiveContainer>
-          </div>
-        </div>
-
-        <div className="bg-slate-900 p-6 rounded-xl border border-slate-800">
-          <h2 className="text-sm font-semibold text-slate-400 mb-4 uppercase">
-            Débit Wi-Fi (KB/s)
-          </h2>
-          <div className="h-64">
-            <ResponsiveContainer width="100%" height="100%">
-              <LineChart data={history}>
-                <CartesianGrid
-                  strokeDasharray="3 3"
-                  stroke="#1e293b"
-                  vertical={false}
-                />
-                <XAxis dataKey="time" hide />
-                <YAxis stroke="#64748b" fontSize={10} />
-                <Tooltip
-                  contentStyle={{ backgroundColor: "#0f172a", border: "none" }}
-                />
-                <Line
-                  type="stepAfter"
-                  dataKey="netDown"
-                  isAnimationActive={false}
-                  stroke="#3b82f6"
-                  strokeWidth={2}
-                  dot={false}
-                  name="Download"
-                />
-                <Line
-                  type="stepAfter"
-                  dataKey="netUp"
-                  isAnimationActive={false}
-                  stroke="#ec4899"
-                  strokeWidth={2}
-                  dot={false}
-                  name="Upload"
-                />
-              </LineChart>
-            </ResponsiveContainer>
-          </div>
-        </div>
+        <CpuCharts history={history} />
+        <WifiCharts history={history} />
+        <DiskUsage history={history} />
       </div>
     </div>
   );

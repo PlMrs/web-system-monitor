@@ -1,15 +1,16 @@
 import { Systeminformation } from "systeminformation";
 
-export type StatsFetch = [
-  cpuLoad: Systeminformation.CurrentLoadData,
-  mem: Systeminformation.MemData,
-  cpuTemp: Systeminformation.CpuTemperatureData,
-  fsSize: Systeminformation.FsSizeData[],
-  networkStats: Systeminformation.NetworkStatsData[],
-];
+export type StatsFetch = {
+  cpuLoad: Systeminformation.CurrentLoadData;
+  mem: Systeminformation.MemData;
+  cpuTemp: Systeminformation.CpuTemperatureData;
+  fsSize: Systeminformation.FsSizeData[];
+  disksIO: Systeminformation.DisksIoData;
+  networkStats: Systeminformation.NetworkStatsData[];
+};
 
 export type TcomputeDiskInfos = (
-  fsSize: StatsFetch["3"],
+  fsSize: StatsFetch["fsSize"],
   index: number
 ) => {
   sizeGB: number;
@@ -39,6 +40,10 @@ export type TStatsData = {
     root: ReturnType<TcomputeDiskInfos>;
     external: ReturnType<TcomputeDiskInfos>;
   } | null;
+  diskIO: {
+    read_sec: number;
+    write_sec: number;
+  };
   network: {
     rx_sec: number;
     tx_sec: number;

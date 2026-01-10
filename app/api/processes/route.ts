@@ -17,7 +17,7 @@ export async function GET() {
         state: computeState(parts[2]),
         cpu: parseFloat(parts[3]),
         mem: parseFloat(parts[4]),
-        name: parts.slice(5).join(" "), // Gère les noms de process avec des espaces
+        name: parts.slice(5).join(" "),
       };
     });
 

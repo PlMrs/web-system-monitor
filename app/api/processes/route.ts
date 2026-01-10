@@ -5,7 +5,7 @@ import { NextResponse } from "next/server";
 export async function GET() {
   try {
     const output = execSync(
-      "sudo ps -ax -o pid,user,stat,%cpu,%mem,comm --sort=-%cpu",
+      "sudo ps -ax -o pid,user,stat,%cpu,%mem,comm",
       { encoding: "utf-8" }
     );
 

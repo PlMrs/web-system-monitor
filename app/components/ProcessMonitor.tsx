@@ -45,7 +45,7 @@ export const ProcessMonitor = () => {
     error,
     isLoading,
   } = useSWR("/api/processes", fetcher, {
-    refreshInterval: 3000,
+    refreshInterval: 5000,
   });
 
   const availableStates = useMemo(() => {
@@ -144,8 +144,13 @@ export const ProcessMonitor = () => {
                   NOM <SortIcon column="name" />
                 </div>
               </TableHead>
-              <TableHead className="cursor-pointer hover:text-white" onClick={() => requestSort('user')}>
-                <div className="flex items-center">USER <SortIcon column="user" /></div>
+              <TableHead
+                className="cursor-pointer hover:text-white"
+                onClick={() => requestSort("user")}
+              >
+                <div className="flex items-center">
+                  USER <SortIcon column="user" />
+                </div>
               </TableHead>
               <TableHead
                 className="text-right cursor-pointer hover:text-white"
@@ -185,10 +190,14 @@ export const ProcessMonitor = () => {
                     {proc.name}
                   </TableCell>
                   <TableCell className="text-slate-400 text-xs">
-                    <span className={proc.user === 'root' ? 'text-amber-500 font-bold' : ''}>
-                        {proc.user}
+                    <span
+                      className={
+                        proc.user === "root" ? "text-amber-500 font-bold" : ""
+                      }
+                    >
+                      {proc.user}
                     </span>
-                </TableCell>
+                  </TableCell>
                   <TableCell className="text-right font-mono text-slate-500 text-xs">
                     {proc.pid}
                   </TableCell>

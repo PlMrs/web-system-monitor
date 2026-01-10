@@ -44,8 +44,7 @@ export const SystemMonitor = () => {
     }
   }, [data]);
 
-  if (isLoading)
-    return <div className="p-4 text-slate-400">Chargement...</div>;
+  if (isLoading) return <div className="p-4 text-slate-400">Chargement...</div>;
   if (error || !data)
     return <div className="p-4 text-red-500">Erreur Serveur</div>;
 

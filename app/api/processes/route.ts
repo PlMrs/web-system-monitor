@@ -1,18 +1,26 @@
+import { computeState } from "@/app/functions/functions";
+import { execSync } from "child_process";
 import { NextResponse } from "next/server";
-import si from "systeminformation";
 
 export async function GET() {
   try {
-    const data = await si.processes();
+    const output = execSync(
+      "sudo ps -ax -o pid,user,stat,%cpu,%mem,comm --sort=-%cpu",
+      { encoding: "utf-8" }
+    );
 
-    const list = data.list.map(p => ({
-      pid: p.pid,
-      name: p.name,
-      cpu: p.cpu,
-      mem: p.mem,
-      state: p.state,
-      user: p.user,
-    }));
+    const lines = output.trim().split("\n").slice(1);
+    const list = lines.map((line) => {
+      const parts = line.trim().split(/\s+/);
+      return {
+        pid: parseInt(parts[0]),
+        user: parts[1],
+        state: computeState(parts[2]),
+        cpu: parseFloat(parts[3]),
+        mem: parseFloat(parts[4]),
+        name: parts.slice(5).join(" "), // Gère les noms de process avec des espaces
+      };
+    });
 
     return NextResponse.json(list);
   } catch (error) {

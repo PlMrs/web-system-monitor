@@ -7,3 +7,24 @@ export const computeDiskInfos: TcomputeDiskInfos = (fsSize, index) => ({
 });
 
 export const fetcher = (url: string) => fetch(url).then((res) => res.json());
+
+export const computeState = (stateChar: string) => {
+  const state = stateChar.charAt(0);
+  switch (state) {
+    case "R":
+      return "running";
+    case "S":
+      return "sleeping";
+    case "D":
+      return "waiting";
+    case "Z":
+      return "zombie";
+    case "T":
+    case "t":
+      return "stopped";
+    case "W":
+      return "paging";
+    default:
+      return "unknown";
+  }
+};

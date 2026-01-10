@@ -120,6 +120,7 @@ export default function SystemMonitor() {
                 <Area
                   type="monotone"
                   dataKey="cpuLoad"
+                  isAnimationActive={false}
                   stroke="#10b981"
                   fill="#10b981"
                   fillOpacity={0.1}
@@ -128,6 +129,7 @@ export default function SystemMonitor() {
                 <Area
                   type="monotone"
                   dataKey="cpuTemp"
+                  isAnimationActive={false}
                   stroke="#f59e0b"
                   fill="#f59e0b"
                   fillOpacity={0.1}
@@ -158,6 +160,7 @@ export default function SystemMonitor() {
                 <Line
                   type="stepAfter"
                   dataKey="netDown"
+                  isAnimationActive={false}
                   stroke="#3b82f6"
                   strokeWidth={2}
                   dot={false}
@@ -166,6 +169,7 @@ export default function SystemMonitor() {
                 <Line
                   type="stepAfter"
                   dataKey="netUp"
+                  isAnimationActive={false}
                   stroke="#ec4899"
                   strokeWidth={2}
                   dot={false}

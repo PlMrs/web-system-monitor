@@ -9,8 +9,8 @@ import { SystemMonitor } from "./components/SystemMonitor";
 import { Cpu, Monitor } from "lucide-react";
 
 export const metadata = {
-  title: "Star2Lte Dashboard",
-  description: "Monitoring système pour LineageOS 20",
+  title: "Dashboard",
+  description: "Monitoring système",
 };
 
 export default function Home() {

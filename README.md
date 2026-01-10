@@ -1,36 +1,34 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Hardware Monitor
 
-## Getting Started
+A high-performance, real-time hardware monitoring dashboard built with **Next.js 16**, **Shadcn/UI**, and **Recharts**.
 
-First, run the development server:
+## ✨ Features
 
+* **📈 Real-Time Performance Streams**: Smooth,live charts for CPU, RAM, and Network (Wi-Fi) with a continuous scrolling behavior.
+* **📋 Advanced Process Manager**:
+    * Interactive table with live sorting by CPU, RAM, or PID.
+    * State filtering (Running, Sleeping, etc.).
+    * Instant search by process name or ID.
+* **🔋 AMOLED Optimized**: True-black theme (`#000000`) to eliminate pixel power consumption and prevent screen burn-in.
+* **🚀 Standalone Architecture**: Minimal deployment footprint designed for mobile SoC environments.
+
+---
+
+## 🛠 Scripts & Commands
+
+### Development
+Run the app locally on your PC with hot-reloading:
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+# Dashboard available at http://localhost:3000
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Build
+Build the app for production:
+```bash
+npm run build
+```
+the output will be in the `.next` folder (standalone)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## License
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.

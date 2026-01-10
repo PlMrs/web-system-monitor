@@ -1,7 +1,7 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  output: 'standalone', // <--- INDISPENSABLE
+  output: "standalone", // <--- INDISPENSABLE
   images: { unoptimized: true },
 };
 

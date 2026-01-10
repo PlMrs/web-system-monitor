@@ -1,9 +1,9 @@
 // app/page.tsx
-import SystemMonitor from './components/SystemMonitor';
+import SystemMonitor from "./components/SystemMonitor";
 
 export const metadata = {
-  title: 'Star2Lte Dashboard',
-  description: 'Monitoring système pour LineageOS 20',
+  title: "Star2Lte Dashboard",
+  description: "Monitoring système pour LineageOS 20",
 };
 
 export default function Home() {

@@ -4,10 +4,9 @@ import { NextResponse } from "next/server";
 
 export async function GET() {
   try {
-    const output = execSync(
-      "sudo ps -ax -o pid,user,stat,%cpu,%mem,comm",
-      { encoding: "utf-8" }
-    );
+    const output = execSync("sudo ps -ax -o pid,user,stat,%cpu,%mem,comm", {
+      encoding: "utf-8",
+    });
 
     const lines = output.trim().split("\n").slice(1);
     const list = lines.map((line) => {

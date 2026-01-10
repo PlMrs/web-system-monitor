@@ -25,7 +25,6 @@ export default function SystemMonitor() {
 
   useEffect(() => {
     if (data && !error) {
-      console.log({ data });
       const newPoint = {
         time: new Date().toLocaleTimeString().slice(0, 8),
         cpuLoad: data.cpu.currentLoad,

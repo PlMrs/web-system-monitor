@@ -19,8 +19,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Search, ArrowUpDown, ChevronUp, ChevronDown, Filter } from "lucide-react";
-
-const fetcher = (url: string) => fetch(url).then((res) => res.json());
+import { fetcher } from '../functions/functions';
 
 type SortConfig = {
   key: string;

@@ -17,8 +17,16 @@ import { TStatsData } from "../types/stats.types";
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
+const initialHistory = Array.from({ length: 30 }, (_, i) => ({
+  time: i,
+  cpuLoad: 0,
+  cpuTemp: 0,
+  netDown: 0,
+  netUp: 0,
+}));
+
 export default function SystemMonitor() {
-  const [history, setHistory] = useState<any[]>([]);
+  const [history, setHistory] = useState<any[]>(initialHistory);
   const { data, error, isLoading } = useSWR<TStatsData>("/api/stats", fetcher, {
     refreshInterval: 1000,
   });

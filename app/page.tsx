@@ -1,4 +1,9 @@
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/app/components/ui/tabs";
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from "@/app/components/ui/tabs";
 import { ProcessMonitor } from "./components/ProcessMonitor";
 import { SystemMonitor } from "./components/SystemMonitor";
 import { Cpu, Monitor } from "lucide-react";

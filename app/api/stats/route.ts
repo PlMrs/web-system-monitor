@@ -1,4 +1,3 @@
-// app/api/stats/route.ts
 import { computeDiskInfos } from "@/app/functions/functions";
 import { StatsFetch, TStatsData } from "@/app/types/stats.types";
 import { NextResponse } from "next/server";

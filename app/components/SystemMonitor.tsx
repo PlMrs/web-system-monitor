@@ -20,7 +20,7 @@ const fetcher = (url: string) => fetch(url).then((res) => res.json());
 export default function SystemMonitor() {
   const [history, setHistory] = useState<any[]>([]);
   const { data, error, isLoading } = useSWR<TStatsData>("/api/stats", fetcher, {
-    refreshInterval: 500,
+    refreshInterval: 1000,
   });
 
   useEffect(() => {
@@ -38,10 +38,10 @@ export default function SystemMonitor() {
     }
   }, [data]);
 
-  if (error || !data)
-    return <div className="p-4 text-red-500">Erreur Serveur</div>;
   if (isLoading)
     return <div className="p-4 text-slate-400">Connexion au S9+...</div>;
+  if (error || !data)
+    return <div className="p-4 text-red-500">Erreur Serveur</div>;
 
   return (
     <div className="p-4 md:p-8 space-y-6 max-w-7xl mx-auto">

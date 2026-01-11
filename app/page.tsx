@@ -7,6 +7,7 @@ import {
 import { ProcessMonitor } from "./components/ProcessMonitor";
 import { SystemMonitor } from "./components/SystemMonitor";
 import { Cpu, Monitor } from "lucide-react";
+import { LogoutButton } from "./components/LogoutButton";
 
 export const metadata = {
   title: "Dashboard",
@@ -34,6 +35,7 @@ export default function Home() {
               Processus
             </TabsTrigger>
           </TabsList>
+          <LogoutButton />
         </div>
 
         <TabsContent

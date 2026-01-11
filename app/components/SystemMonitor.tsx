@@ -8,6 +8,7 @@ import { CpuCharts } from "./CpuCharts";
 import { DiskUsage } from "./DiskUsage";
 import { StatBlock } from "./StateBlock";
 import { fetcher } from "../functions/functions";
+import nextConfig from "@/next.config";
 
 const initialHistory: TinitialHistoryPoints[] = Array.from(
   { length: 30 },

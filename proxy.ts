@@ -13,7 +13,7 @@ export async function proxy(request: NextRequest) {
   if (pathname.startsWith("/api/auth")) {
     const response = NextResponse.next({
       request: {
-        headers: headers,
+        headers,
       },
     });
     response.headers.set("Content-Security-Policy", cspHeader);
@@ -43,7 +43,11 @@ export async function proxy(request: NextRequest) {
     return response;
   }
 
-  const response = NextResponse.next();
+  const response = NextResponse.next({
+    request: {
+      headers,
+    },
+  });
   response.headers.set("Content-Security-Policy", cspHeader);
   return response;
 }

@@ -14,7 +14,7 @@ export const metadata = {
   description: "Monitoring système",
 };
 
-export default async function Home() {
+export default function Home() {
   return (
     <main className="min-h-screen bg-slate-950">
       <Tabs defaultValue="performance" className="space-y-6">

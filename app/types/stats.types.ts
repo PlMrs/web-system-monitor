@@ -1,3 +1,4 @@
+import { NextRequest } from "next/server";
 import { Systeminformation } from "systeminformation";
 
 export type StatsFetch = {
@@ -59,3 +60,7 @@ export type TinitialHistoryPoints = {
   diskRead: number;
   diskWrite: number;
 };
+
+export type TComputeCSSHeader = (
+  headers: NextRequest["headers"]
+) => Headers;

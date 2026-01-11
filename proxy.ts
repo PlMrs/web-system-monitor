@@ -1,29 +1,60 @@
 import { auth } from "./app/api/auth/[...nextauth]/route";
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
+import { computeCSSHeader } from "./app/functions/functions";
 
 export async function proxy(request: NextRequest) {
   const session = await auth();
   const { pathname } = request.nextUrl;
 
+  const headers = computeCSSHeader(request.headers);
+  const cspHeader = headers.get("Content-Security-Policy") || "";
+
   if (pathname.startsWith("/api/auth")) {
-    return NextResponse.next();
+    const response = NextResponse.next({
+      request: {
+        headers: headers,
+      },
+    });
+    response.headers.set(
+      'Content-Security-Policy',
+      cspHeader
+    )
+    return response;
   }
 
   const isAuthorized = session?.user?.email === process.env.MAIL_AUTH;
 
   if (!isAuthorized) {
     if (session) {
-      return new NextResponse("Accès interdit : email non autorisé.", {
+      const response = new NextResponse("Accès interdit : email non autorisé.", {
         status: 403,
+        headers
       });
+      response.headers.set(
+        'Content-Security-Policy',
+        cspHeader
+      )
+      return response;
     }
 
     const signInUrl = new URL("/api/auth/signin", request.url);
-    return NextResponse.redirect(signInUrl);
+    const response = NextResponse.redirect(signInUrl, {
+      headers
+    });
+    response.headers.set(
+      'Content-Security-Policy',
+      cspHeader
+    )
+    return response;
   }
 
-  return NextResponse.next();
+  const response = NextResponse.next();
+  response.headers.set(
+    'Content-Security-Policy',
+    cspHeader
+  )
+  return response;
 }
 
 export const config = {

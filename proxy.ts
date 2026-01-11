@@ -1,30 +1,29 @@
-// proxy.ts
-import { withAuth } from "next-auth/middleware";
-import { NextRequest, NextResponse } from "next/server";
+import { auth } from "./app/api/auth/[...nextauth]/route";
+import { NextResponse } from "next/server";
+import type { NextRequest } from "next/server";
 
-// On définit la logique de protection
-const authMiddleware = withAuth({
-  pages: {
-    signIn: "/api/auth/signin",
-  },
-});
+export async function proxy(request: NextRequest) {
+  const session = await auth();
+  const { pathname } = request.nextUrl;
 
-// 2. On l'exporte via la nouvelle fonction "proxy" de Next.js 16
-export default async function proxy(req: NextRequest) {
-  // Cette ligne appelle le vérificateur de session de NextAuth
-  const response = await (authMiddleware as any)(req);
+  if (pathname.startsWith("/api/auth")) {
+    return NextResponse.next();
+  }
 
-  console.log("Middleware d'authentification exécuté pour :", response);
-  
-  // Si NextAuth renvoie une redirection vers la page de login, on la retourne
-  if (response) return response;
+  const isAuthorized = session?.user?.email === process.env.MAIL_AUTH;
 
-  // Sinon, on laisse l'utilisateur voir l'application
+  if (!isAuthorized) {
+    if (session) {
+      return new NextResponse("Accès interdit : email non autorisé.", { status: 403 });
+    }
+
+    const signInUrl = new URL("/api/auth/signin", request.url);
+    return NextResponse.redirect(signInUrl);
+  }
+
   return NextResponse.next();
 }
 
-// 3. On définit ce qui doit être protégé
 export const config = {
-  // On protège TOUT sauf les fichiers système de Next.js et les images
   matcher: ["/((?!_next/static|_next/image|favicon.ico).*)"],
 };

@@ -8,6 +8,7 @@ import { CpuCharts } from "./CpuCharts";
 import { DiskUsage } from "./DiskUsage";
 import { StatBlock } from "./StateBlock";
 import { fetcher } from "../functions/functions";
+import nextConfig from "@/next.config";
 
 const initialHistory: TinitialHistoryPoints[] = Array.from(
   { length: 30 },
@@ -24,7 +25,7 @@ const initialHistory: TinitialHistoryPoints[] = Array.from(
 
 export const SystemMonitor = () => {
   const [history, setHistory] = useState<any[]>(initialHistory);
-  const { data, error, isLoading } = useSWR<TStatsData>("/api/stats", fetcher, {
+  const { data, error, isLoading } = useSWR<TStatsData>(`${nextConfig.basePath || ""}/api/stats`, fetcher, {
     refreshInterval: 1000,
   });
 

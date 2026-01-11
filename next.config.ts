@@ -1,8 +1,9 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  output: "standalone", // <--- INDISPENSABLE
+  output: "standalone",
   images: { unoptimized: true },
+  basePath: "/monitor",
 };
 
 export default nextConfig;

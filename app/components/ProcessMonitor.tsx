@@ -26,6 +26,7 @@ import {
   Filter,
 } from "lucide-react";
 import { fetcher } from "../functions/functions";
+import nextConfig from "@/next.config";
 
 type SortConfig = {
   key: string;
@@ -45,7 +46,7 @@ export const ProcessMonitor = () => {
     data: processes,
     error,
     isLoading,
-  } = useSWR("/api/processes", fetcher, {
+  } = useSWR(`${nextConfig.basePath || ""}/api/processes`, fetcher, {
     refreshInterval: 5000,
   });
 

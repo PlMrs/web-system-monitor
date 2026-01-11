@@ -7,13 +7,17 @@ import {
 import { ProcessMonitor } from "./components/ProcessMonitor";
 import { SystemMonitor } from "./components/SystemMonitor";
 import { Cpu, Monitor } from "lucide-react";
+import { getServerSession } from "next-auth";
+import { authOptions } from "./api/auth/[...nextauth]/route";
 
 export const metadata = {
   title: "Dashboard",
   description: "Monitoring système",
 };
 
-export default function Home() {
+export default async function Home() {
+  const session = await getServerSession(authOptions); // <--- AJOUTE authOptions ICI
+  console.log("Session utilisateur :", session);
   return (
     <main className="min-h-screen bg-slate-950">
       <Tabs defaultValue="performance" className="space-y-6">

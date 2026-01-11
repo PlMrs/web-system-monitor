@@ -61,6 +61,4 @@ export type TinitialHistoryPoints = {
   diskWrite: number;
 };
 
-export type TComputeCSSHeader = (
-  headers: NextRequest["headers"]
-) => Headers;
+export type TComputeCSSHeader = (headers: NextRequest["headers"]) => Headers;

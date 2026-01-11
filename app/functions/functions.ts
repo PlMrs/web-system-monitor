@@ -36,7 +36,7 @@ export const computeCSSHeader: TComputeCSSHeader = (
   const nonce = Buffer.from(crypto.randomUUID()).toString("base64");
   const cspHeader = `
     default-src 'self';
-    script-src 'nonce-${nonce}' 'strict-dynamic';
+    script-src 'self' 'nonce-${nonce}' 'strict-dynamic';
     style-src 'self' 'unsafe-inline' ;
     img-src 'self' blob: data: https://authjs.dev;
     font-src 'self';
@@ -57,15 +57,15 @@ export const computeCSSHeader: TComputeCSSHeader = (
     "Content-Security-Policy",
     contentSecurityPolicyHeaderValue
   );
-    const response = NextResponse.next({
+  const response = NextResponse.next({
     request: {
       headers: requestHeaders,
     },
-  })
+  });
   response.headers.set(
-    'Content-Security-Policy',
+    "Content-Security-Policy",
     contentSecurityPolicyHeaderValue
-  )
+  );
 
   return requestHeaders;
 };

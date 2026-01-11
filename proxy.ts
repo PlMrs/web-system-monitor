@@ -16,10 +16,7 @@ export async function proxy(request: NextRequest) {
         headers: headers,
       },
     });
-    response.headers.set(
-      'Content-Security-Policy',
-      cspHeader
-    )
+    response.headers.set("Content-Security-Policy", cspHeader);
     return response;
   }
 
@@ -27,33 +24,27 @@ export async function proxy(request: NextRequest) {
 
   if (!isAuthorized) {
     if (session) {
-      const response = new NextResponse("Accès interdit : email non autorisé.", {
-        status: 403,
-        headers
-      });
-      response.headers.set(
-        'Content-Security-Policy',
-        cspHeader
-      )
+      const response = new NextResponse(
+        "Accès interdit : email non autorisé.",
+        {
+          status: 403,
+          headers,
+        }
+      );
+      response.headers.set("Content-Security-Policy", cspHeader);
       return response;
     }
 
     const signInUrl = new URL("/api/auth/signin", request.url);
     const response = NextResponse.redirect(signInUrl, {
-      headers
+      headers,
     });
-    response.headers.set(
-      'Content-Security-Policy',
-      cspHeader
-    )
+    response.headers.set("Content-Security-Policy", cspHeader);
     return response;
   }
 
   const response = NextResponse.next();
-  response.headers.set(
-    'Content-Security-Policy',
-    cspHeader
-  )
+  response.headers.set("Content-Security-Policy", cspHeader);
   return response;
 }
 

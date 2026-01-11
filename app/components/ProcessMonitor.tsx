@@ -46,7 +46,7 @@ export const ProcessMonitor = () => {
     data: processes,
     error,
     isLoading,
-  } = useSWR(`${nextConfig.basePath || ""}/api/processes`, fetcher, {
+  } = useSWR("/api/processes", fetcher, {
     refreshInterval: 5000,
   });
 

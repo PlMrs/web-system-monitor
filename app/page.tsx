@@ -15,7 +15,6 @@ export const metadata = {
 };
 
 export default async function Home() {
-  
   return (
     <main className="min-h-screen bg-slate-950">
       <Tabs defaultValue="performance" className="space-y-6">

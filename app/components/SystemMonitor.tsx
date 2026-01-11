@@ -25,7 +25,7 @@ const initialHistory: TinitialHistoryPoints[] = Array.from(
 
 export const SystemMonitor = () => {
   const [history, setHistory] = useState<any[]>(initialHistory);
-  const { data, error, isLoading } = useSWR<TStatsData>(`${nextConfig.basePath || ""}/api/stats`, fetcher, {
+  const { data, error, isLoading } = useSWR<TStatsData>("/api/stats", fetcher, {
     refreshInterval: 1000,
   });
 

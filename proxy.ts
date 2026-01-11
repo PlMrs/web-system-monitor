@@ -14,7 +14,9 @@ export async function proxy(request: NextRequest) {
 
   if (!isAuthorized) {
     if (session) {
-      return new NextResponse("Accès interdit : email non autorisé.", { status: 403 });
+      return new NextResponse("Accès interdit : email non autorisé.", {
+        status: 403,
+      });
     }
 
     const signInUrl = new URL("/api/auth/signin", request.url);

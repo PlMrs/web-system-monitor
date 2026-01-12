@@ -57,15 +57,6 @@ export const computeCSSHeader: TComputeCSSHeader = (
     "Content-Security-Policy",
     contentSecurityPolicyHeaderValue
   );
-  const response = NextResponse.next({
-    request: {
-      headers: requestHeaders,
-    },
-  });
-  response.headers.set(
-    "Content-Security-Policy",
-    contentSecurityPolicyHeaderValue
-  );
-
+  
   return requestHeaders;
 };
